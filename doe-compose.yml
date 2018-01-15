@@ -8,6 +8,8 @@ builtin:
     - PATH=~/.local/bin:$PATH
     - NOMULUS_DIR=~/src/nomulus
     - PROJECT_ID=nomulusz
+    - PROJECT_NAME="R-registry-2"
+    - BILLING="00A332-38ABA6-657D6E"
   eval:
     - yamllint --strict ./doe-compose.yml
 
@@ -24,13 +26,13 @@ doe:
 
 gcloud:
   projects:
-    - create $PROJECT_ID --name="R-registry2"
+    - create $PROJECT_ID --name=$PROJECT_NAME
   config:
     - set project $PROJECT_ID
     - set compute/zone us-central1-a
     - list
   beta: billing projects
-    - link $PROJECT_ID --billing-account="00A332-38ABA6-657D6E"
+    - link $PROJECT_ID --billing-account=$BILLING
 
 kubectl:
   config:
