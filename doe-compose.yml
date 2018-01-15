@@ -1,0 +1,54 @@
+---
+pip:
+  install: --user
+    - yamllint
+
+builtin:
+  export:
+    - PATH=~/.local/bin:$PATH
+    - NOMULUS_DIR=~/src/nomulus
+    - PROJECT_ID=nomulusz
+  eval:
+    - yamllint --strict ./doe-compose.yml
+
+doe:
+  modules:
+    - pull
+  install:
+    - appengine-java-sdk 1.9.60
+  nomulus:
+    - pull
+#    - build
+#    - update $PROJECT_ID
+#    - clean
+
+gcloud:
+  projects:
+    - create $PROJECT_ID --name="R-registry2"
+  config:
+    - set project $PROJECT_ID
+    - set compute/zone us-central1-a
+    - list
+  beta: billing projects
+    - link $PROJECT_ID --billing-account="00A332-38ABA6-657D6E"
+
+kubectl:
+  config:
+    - view
+
+# You can use Cloud Storage after you enable billing
+gsutil:
+  mb: -l us -p $PROJECT_ID
+    - gs://$PROJECT_ID-billing
+    - gs://$PROJECT_ID-commits
+    - gs://$PROJECT_ID-domain-lists
+    - gs://$PROJECT_ID-gcs-logs
+    - gs://$PROJECT_ID-icann-brda
+    - gs://$PROJECT_ID-icann-zfa
+    - gs://$PROJECT_ID-rde
+    - gs://$PROJECT_ID-reporting
+    - gs://$PROJECT_ID-snapshots
+  lifecycle: set lifecycle.json
+    - gs://$PROJECT_ID-rde
+    - gs://$PROJECT_ID.appspot.com
+...
