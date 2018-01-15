@@ -22,7 +22,7 @@ gcloud:
     - set compute/zone us-central1-a
     - list
   beta: billing projects
-    - link $PROJECT_ID --billing-account=$BILLING
+    - link $PROJECT_ID --billing-account=$BILLING; [ $? -ne 0 ] && exit
   app:
     - create --region=us-central
 
@@ -35,7 +35,7 @@ doe:
     - pull
 #    - build
 #    - update $PROJECT_ID
-    - clean
+#    - clean
 
 # You can use Cloud Storage after you enable billing
 gsutil:
