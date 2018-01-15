@@ -11,7 +11,7 @@ builtin:
     - PROJECT_NAME="R-registry-2"
     - BILLING="00A332-38ABA6-657D6E"
   eval:
-    - yamllint --strict ./doe-compose.yml
+    - yamllint --strict ./doe-compose.yml; [ $? -ne 0 ] && exit
 
 gcloud:
   projects:
@@ -33,8 +33,8 @@ doe:
     - appengine-java-sdk 1.9.60
   nomulus:
     - pull
-    - build
-    - update $PROJECT_ID
+#    - build
+#    - update $PROJECT_ID
     - clean
 
 # You can use Cloud Storage after you enable billing
